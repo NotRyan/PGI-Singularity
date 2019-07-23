@@ -18,7 +18,6 @@ From: centos:7
     export PGI_MPI_GPU_SUPPORT=true
     ./install
 
-    
     yum install -y libcurl-devel zlib-devel
 
     wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf5-1.8.21/src/hdf5-1.8.21.tar.gz
@@ -46,7 +45,7 @@ From: centos:7
     export LM_LICENSE_FILE=$LM_LICENSE_FILE:/opt/pgi/license.dat
 
 %runscript
-    pgcc $@
+    exec $(basename $0) $@
 
 %help
     Container containing PGI compilers
