@@ -12,5 +12,5 @@ PGI_BIN_LOC=/opt/pgi/linux86-64/19.4/bin
 
 mkdir bin
 echo -e "#!/bin/bash\nCMD=\$(echo \$0 | sed 's/^[^[:space:]]*\\///')\nsingularity exec $SING_LOC $PGI_BIN_LOC/\$CMD \$@" | tee bin/pgf77 bin/pgfortran bin/pgcc bin/pgc++ bin/pgdbg bin/pgprof
-chmod +x bin/pgf77 bin/pgfortran bin/pgcc bin/pgc++ bin/pgdbg bin/pgprof
+chmod +x bin/pgf77 bin/pgfortran bin/pgcc bin/pgc++ bin/pgdbg bin/pgprof bin/pgf90
 
