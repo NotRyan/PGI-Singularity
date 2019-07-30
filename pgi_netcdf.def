@@ -18,31 +18,43 @@ From: centos:7
     export PGI_MPI_GPU_SUPPORT=true
     ./install
 
+    export CC=/opt/pgi/linux86-64/19.4/bin/pgcc
+    export FC=/opt/pgi/linux86-64/19.4/bin/pgfortran
+
     yum install -y libcurl-devel zlib-devel
 
     wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf5-1.8.21/src/hdf5-1.8.21.tar.gz
     tar xzf hdf5-1.8.21.tar.gz
-    cd hdf5-1.8.21
-    export CC=/opt/pgi/linux86-64/19.4/bin/pgcc
+    cd hdf5-1.8.21 
     ./configure --prefix=/usr/local
     make install
 
-    #NetCDF, both C and fortran
+    #NetCDF C 
     wget https://github.com/Unidata/netcdf-c/archive/v4.7.0.tar.gz
     tar -zxf v4.7.0.tar.gz
     cd netcdf-c-4.7.0
-    ./configure --enable-remote-fortran-bootstrap
+    ./configure 
     make
     make install
     cd .. 
 
-    
+    #NetCDF Fortran
+    wget https://github.com/Unidata/netcdf-fortran/archive/v4.4.5.tar.gz
+    tar -zxf v4.4.5.tar.gz
+    cd netcdf-fortran-4.4.5
+    NFDIR=/usr/local
+    CPPFLAGS=-I${NCDIR}/include LDFLAGS=-L${NCDIR}/lib \
+    ./configure --prefix=${NFDIR}
+    make check
+    make install
     
 %environment
     export PGI=/opt/pgi
     export PATH=/opt/pgi/linux86-64/19.4/bin:$PATH
     export MANPATH=$MANPATH:/opt/pgi/linux86-64/19.4/man
     export LM_LICENSE_FILE=$LM_LICENSE_FILE:/opt/pgi/license.dat
+    export LD_LIBRARY_PATH=/opt/pgi/lib:$LD_LIBRARY_PATH
+    export CC=pgcc FC=pgfortran
 
 %runscript
     exec $(basename $0) $@
